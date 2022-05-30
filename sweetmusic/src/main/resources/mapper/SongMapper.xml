@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.SongMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Song">
+        <id column="id" property="id"/>
+        <result column="singer_id" property="singerId"/>
+        <result column="name" property="name"/>
+        <result column="introduction" property="introduction"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="pic" property="pic"/>
+        <result column="url" property="url"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.entity.Song" extends="BaseResultMap">
+        <result column="lyric" property="lyric"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, singer_id, name, introduction, create_time, update_time, pic
+    </sql>
+    <sql id="Blob_Column_List">
+        lyric
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="Integer">
+        select
+        from t_song
+        where id = #{id}
+    </select>
+    <select id="allSong" resultMap="ResultMapWithBLOBs">
+        select *
+        from t_song
+    </select>
+    <select id="songOfSingerId" resultMap="BaseResultMap" parameterType="Integer">
+        select *
+        from t_song
+        where singer_id = #{singerId}
+    </select>
+    <select id="songOfId" resultMap="BaseResultMap" parameterType="Integer">
+        select *
+        from t_song
+        where id = #{id}
+    </select>
+    <select id="songOfSingerName" resultMap="BaseResultMap" parameterType="String">
+        select *
+        from t_song
+        where name like #{name}
+    </select>
+    <select id="songOfName" resultMap="BaseResultMap" parameterType="String">
+        select *
+        from t_song
+        where name = #{name}
+    </select>
+    <delete id="deleteSong" parameterType="Integer">
+        delete from t_song
+        where id = #{id}
+    </delete>
+    <insert id="insert" parameterType="Song">
+        insert into t_song (id, singer_id, name,
+        introduction, create_time, update_time,
+        pic, lyric)
+        values (#{id}, #{singerId}, #{name},
+        #{introduction}, #{createTime}, #{updateTime},
+        #{pic}, #{lyric})
+    </insert>
+    <insert id="insertSelective" parameterType="Song">
+        insert into t_song
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="singerId != null">
+                singer_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="lyric != null">
+                lyric,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="singerId != null">
+                #{singerId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="lyric != null">
+                #{lyric},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateSongMsg" parameterType="Song">
+        update t_song
+        <set>
+            <if test="singerId != null">
+                singer_id = #{singerId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="lyric != null">
+                lyric = #{lyric},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateSongUrl" parameterType="Consumer">
+        update t_song
+        <set>
+            <if test="url != null">
+                url = #{url},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateSongPic" parameterType="Consumer">
+        update t_song
+        <set>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="Song">
+        update t_song
+        set singer_id = #{singerId},
+        name = #{name},
+        introduction = #{introduction},
+        create_time = #{createTime},
+        update_time = #{updateTime},
+        pic = #{pic},
+        url = #{url},
+        lyric = #{lyric}
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Song">
+        update t_song
+        set singer_id = #{singerId},
+        name = #{name},
+        introduction = #{introduction},
+        create_time = #{createTime},
+        update_time = #{updateTime},
+        pic = #{pic}
+        where id = #{id}
+    </update>
+</mapper>

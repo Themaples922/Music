@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.ConsumerMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Consumer">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="birth" property="birth"/>
+        <result column="introduction" property="introduction"/>
+        <result column="location" property="location"/>
+        <result column="avatar" property="avatar"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, username, password, sex, phone, email, birth, introduction, location, avatar, create_time, update_time
+    </sql>
+    <select id="userOfId" resultMap="BaseResultMap" parameterType="Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_consumer
+        where id = #{id}
+    </select>
+    <select id="verifyPassword" resultType="Integer">
+        SELECT count(*) FROM t_consumer where username = #{username} and password = #{password} ;
+    </select>
+    <select id="existUsername" resultType="Integer" parameterType="String">
+        select count(*)
+        from t_consumer
+        where username = #{username}
+    </select>
+    <select id="loginStatus" resultMap="BaseResultMap">
+        select *
+        from t_consumer
+        where username = #{username}
+    </select>
+    <select id="allUser" resultMap="BaseResultMap">
+        select *
+        from t_consumer
+    </select>
+    <delete id="deleteUser" parameterType="Integer">
+        delete from t_consumer
+        where id = #{id}
+    </delete>
+    <insert id="insert" parameterType="Consumer">
+        insert into t_consumer (id, username, password,
+        sex, phone, email, birth,
+        introduction, location, avatar,
+        create_time, update_time)
+        values (#{id}, #{username}, #{password},
+        #{sex}, #{phone}, #{email}, #{birth},
+        #{introduction}, #{location}, #{avatar},
+        #{createTime}, #{updateTime})
+    </insert>
+    <insert id="insertSelective" parameterType="Consumer">
+        insert into t_consumer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="birth != null">
+                #{birth},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="location != null">
+                #{location},
+            </if>
+            <if test="avatar != null">
+                #{avatar},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateUserMsg" parameterType="Consumer">
+        update t_consumer
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="birth != null">
+                birth = #{birth},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            <if test="location != null">
+                location = #{location},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateUserAvatar" parameterType="Consumer">
+        update t_consumer
+        <set>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Consumer">
+        update t_consumer
+        set username = #{username},
+        password = #{password},
+        sex = #{sex},
+        phone = #{phone},
+        email = #{email},
+        birth = #{birth},
+        introduction = #{introduction}
+        location = #{location},
+        avatar = #{avatar},
+        create_time = #{createTime},
+        update_time = #{updateTime},
+        where id = #{id}
+    </update>
+</mapper>

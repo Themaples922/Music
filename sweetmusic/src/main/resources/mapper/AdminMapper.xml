@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AdminMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Admin">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, username, password
+    </sql>
+    <select id="verifyPassword" resultType="Integer">
+        select count(*) from t_admin where username = #{username} and password = #{password} ;
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin
+        where id = #{id}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="Integer">
+        delete from t_admin
+        where id = #{id}
+    </delete>
+    <insert id="insert" parameterType="Admin">
+        insert into t_admin (id, username, password
+        )
+        values (#{id}, #{username}, #{password}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="Admin">
+        insert into t_admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="Admin">
+        update t_admin
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Admin">
+        update t_admin
+        set username = #{username},
+        password = #{password}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.SongListMapper">
+    <resultMap id="BaseResultMap" type="com.entity.SongList">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="pic" property="pic"/>
+        <result column="style" property="style"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="SongList" extends="BaseResultMap">
+        <result column="introduction" property="introduction"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, title, pic, style
+    </sql>
+    <sql id="Blob_Column_List">
+        introduction
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_song_list
+        where id = #{id}
+    </select>
+    <select id="allSongList" resultMap="ResultMapWithBLOBs">
+        select *
+        from t_song_list
+    </select>
+    <select id="likeTitle" resultMap="ResultMapWithBLOBs">
+        select *
+        from t_song_list
+        where title like #{title}
+    </select>
+    <select id="likeStyle" resultMap="ResultMapWithBLOBs">
+        select *
+        from t_song_list
+        where style like #{style}
+    </select>
+    <select id="songListOfTitle" resultMap="ResultMapWithBLOBs">
+        select *
+        from t_song_list
+        where title = #{title}
+    </select>
+    <delete id="deleteSongList" parameterType="Integer">
+        delete from t_song_list
+        where id = #{id}
+    </delete>
+    <insert id="insert" parameterType="SongList">
+        insert into t_song_list (id, title, pic,
+        score, introduction)
+        values (#{id}, #{title}, #{pic},
+        #{score}, #{introduction})
+    </insert>
+    <insert id="insertSelective" parameterType="SongList">
+        insert into t_song_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="style != null">
+                style,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="style != null">
+                #{style},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateSongListMsg" parameterType="SongList">
+        update t_song_list
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="style != null">
+                style = #{style},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateSongListImg" parameterType="Consumer">
+        update t_song_list
+        <set>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="SongList">
+        update t_song_list
+        set title = #{title},
+        pic = #{pic},
+        style = #{style},
+        introduction = #{introduction}
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="SongList">
+        update t_song_list
+        set title = #{title},
+        pic = #{pic},
+        style = #{style}
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,23 @@
+#配置访问端口和访问根路径
+server:
+  port: 9000
+  servlet:
+    context-path: /sweetmusic
+
+#MyBatis配置
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    url: jdbc:sqlserver://DESKTOP-G5HT7VB:1433;databasename=db_test_sweetmusic;useSSL=false
+    password: 123456
+    username: sa
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+#mybatis-plus配置
+mybatis-plus:
+  type-aliases-package: com.entity
+  mapper-locations: classpath:/mapper/*.xml  #指定sql 映射文件的位置
+  configuration:
+    map-underscore-to-camel-case: true  #自动开启驼峰规则映射

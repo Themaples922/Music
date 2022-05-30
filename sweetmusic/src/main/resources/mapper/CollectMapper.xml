@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mapper.CollectMapper">
+    <resultMap id="BaseResultMap" type="com.entity.Collect">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="song_id" property="songId"/>
+        <result column="song_list_id" property="songListId"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, type, song_id, song_list_id, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_collect
+        where id = #{id}
+    </select>
+    <select id="existSongId" resultType="Integer">
+        select count(*) from t_collect where user_id = #{userId} and song_id = #{songId} ;
+    </select>
+    <select id="allCollect" resultMap="BaseResultMap">
+        select *
+        from t_collect
+    </select>
+    <select id="collectionOfUser" resultMap="BaseResultMap" parameterType="Integer">
+        select *
+        from t_collect
+        where user_id = #{userId}
+    </select>
+    <delete id="deleteCollect" parameterType="Integer">
+        delete from t_collect
+        where user_id = #{userId}
+        and song_id = #{songId}
+    </delete>
+    <insert id="insert" parameterType="Collect">
+        insert into t_collect (id, user_id, type,
+        song_id, song_list_id, create_time
+        )
+        values (#{id}, #{userId}, #{type},
+        #{songId}, #{songListId}, #{createTime}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="Collect">
+        insert into t_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="songId != null">
+                song_id,
+            </if>
+            <if test="songListId != null">
+                song_list_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="songId != null">
+                #{songId},
+            </if>
+            <if test="songListId != null">
+                #{songListId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateCollectMsg" parameterType="Collect">
+        update t_collect
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="songId != null">
+                song_id = #{songId},
+            </if>
+            <if test="songListId != null">
+                song_list_id = #{songListId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="Collect">
+        update t_collect
+        set user_id = #{userId},
+        type = #{type},
+        song_id = #{songId},
+        song_list_id = #{songListId},
+        create_time = #{createTime}
+        where id = #{id}
+    </update>
+</mapper>

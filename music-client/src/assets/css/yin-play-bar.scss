@@ -1,0 +1,101 @@
+@import "var.scss";
+@import "global.scss";
+
+.play-bar {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  width: 100%;
+  transition: all 0.5s;
+
+  .fold {
+    position: absolute;
+    bottom: $play-bar-height + 10px;
+    left: 20px;
+    cursor: pointer;
+  }
+
+  .progress {
+    position: absolute;
+    margin-top: -10px
+  }
+
+  .control-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $play-bar-height;
+    width: 100%;
+    background-color: $theme-play-bar-color;
+
+    .song-ctr {
+      position: relative;
+      margin: auto;
+      flex-wrap: nowrap;
+      
+      svg {
+        width: 5rem;
+        cursor: pointer;
+      }
+      .icon.active {
+        color: red !important;
+      }
+    }
+
+    .info-box {
+      width: 30%;
+      margin-left: 30px;
+      .song-bar-img {
+        width: calc($play-bar-height - 15px);
+        height: calc($play-bar-height - 15px);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-right: 10px;
+        img {
+          cursor: pointer;
+          height: 100%;
+        }
+      }
+      .song-info {
+        font-size: 14px;
+      }
+      .time-info {
+        font-size: 12px;
+        color: $color-grey;
+      }
+    }
+
+    .song-edit {
+      width: 30%;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.turn {
+  transform: rotate(180deg);
+}
+
+.show {
+  bottom: -($play-bar-height) + 5px;
+}
+
+.icon {
+  @include icon(1.2em, $color-black);
+}
+
+@media screen and (min-width: $sm) {
+  .song-ctr,
+  .info-box,
+  .song-edit {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: $sm) {
+  .info-box,
+  .song-edit {
+    display: none;
+  }
+}
